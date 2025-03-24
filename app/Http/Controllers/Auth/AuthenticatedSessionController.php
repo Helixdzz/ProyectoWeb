@@ -8,6 +8,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Notifications\LoginAlertNotification;
+
 
 class AuthenticatedSessionController extends Controller
 {
@@ -25,9 +27,12 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
+    
         $request->session()->regenerate();
-
+    
+        // Enviar alerta de inicio de sesión
+        Auth::user()->notify(new LoginAlertNotification());
+    
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
@@ -44,4 +49,7 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+
+    
 }
