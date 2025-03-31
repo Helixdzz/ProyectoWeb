@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Crear Usuario</title>
+    <title>Crear User</title>
 </head>
 <body>
-    <h1>Crear Nuevo Usuario</h1>
+    <h1>Crear Nuevo User</h1>
     <form action="{{ route('users.store') }}" method="POST">
         @csrf
         <label for="name">Nombre:</label>

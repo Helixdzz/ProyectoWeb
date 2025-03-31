@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Editar Usuario</title>
+    <title>Editar User</title>
 </head>
 <body>
-    <h1>Editar Usuario</h1>
+    <h1>Editar User</h1>
     <form action="{{ route('users.update', $user->id) }}" method="POST">
         @csrf
         @method('PUT')

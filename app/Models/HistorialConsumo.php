@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class HistorialConsumo extends Model
 {
-    // Relación con User (un registro de consumo pertenece a un usuario)
-    public function usuario(): BelongsTo
+    // Relación con User (un registro de consumo pertenece a un user)
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

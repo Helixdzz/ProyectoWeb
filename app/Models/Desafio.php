@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Desafio extends Model
 {
-    // Relación con User (un desafío puede ser completado por muchos usuarios)
-    public function usuarios(): BelongsToMany
+    // Relación con User (un desafío puede ser completado por muchos users)
+    public function user(): BelongsToMany
     {
         return $this->belongsToMany(User::class)->withTimestamps();
     }

@@ -11,7 +11,7 @@ class CreateRecomendacionesTable extends Migration
     {
         Schema::create('recomendaciones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usuario_id')->constrained('users')->onDelete('cascade'); // Relación con users
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Relación con users
             $table->text('descripcion');
             $table->integer('prioridad'); // Nivel de prioridad (1-5)
             $table->timestamps();

@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Recompensa extends Model
 {
-    // Relación con User (una recompensa puede ser canjeada por muchos usuarios)
-    public function usuarios(): BelongsToMany
+    // Relación con User (una recompensa puede ser canjeada por muchos user)
+    public function user(): BelongsToMany
     {
         return $this->belongsToMany(User::class)->withTimestamps();
     }

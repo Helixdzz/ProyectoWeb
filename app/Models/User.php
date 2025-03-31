@@ -38,25 +38,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // Relación con HistorialConsumo (un usuario tiene muchos registros de consumo)
+    // Relación con HistorialConsumo (un user tiene muchos registros de consumo)
     public function historialConsumo(): HasMany
     {
         return $this->hasMany(HistorialConsumo::class);
     }
 
-    // Relación con Recomendacion (un usuario tiene muchas recomendaciones)
+    // Relación con Recomendacion (un user tiene muchas recomendaciones)
     public function recomendaciones(): HasMany
     {
         return $this->hasMany(Recomendacion::class);
     }
 
-    // Relación con Desafio (un usuario puede completar muchos desafíos)
+    // Relación con Desafio (un user puede completar muchos desafíos)
     public function desafios(): BelongsToMany
     {
         return $this->belongsToMany(Desafio::class)->withTimestamps();
     }
 
-    // Relación con Recompensa (un usuario puede canjear muchas recompensas)
+    // Relación con Recompensa (un user puede canjear muchas recompensas)
     public function recompensas(): BelongsToMany
     {
         return $this->belongsToMany(Recompensa::class)->withTimestamps();

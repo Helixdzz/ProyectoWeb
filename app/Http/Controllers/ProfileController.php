@@ -25,7 +25,7 @@ class ProfileController extends Controller
         ]);
     }
 
-    // Actualizar el perfil del usuario
+    // Actualizar el perfil del user
     public function update(Request $request)
     {
         $request->validate([
@@ -38,7 +38,7 @@ class ProfileController extends Controller
         return redirect()->route('profile.edit')->with('success', 'Perfil actualizado correctamente.');
     }
 
-    // Eliminar el perfil del usuario
+    // Eliminar el perfil del user
     public function destroy(Request $request)
     {
         $request->validate([

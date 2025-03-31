@@ -11,7 +11,7 @@ class CreateHistorialConsumoTable extends Migration
     {
         Schema::create('historial_consumo', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usuario_id')->constrained('users')->onDelete('cascade'); // Relación con users
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Relación con users
             $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade'); // Relación con productos
             $table->foreignId('transporte_id')->constrained('transportes')->onDelete('cascade'); // Relación con transportes
             $table->date('fecha'); // Fecha del registro

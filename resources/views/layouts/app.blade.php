@@ -19,19 +19,21 @@
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            @isset($header)
+            @hasSection('header')
                 <header class="bg-white shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
+                        @yield('header')
                     </div>
                 </header>
-            @endisset
+            @endif
 
-            <!-- Page Content -->
             <main>
-                @yield('content') <!-- Cambia $slot por @yield('content') -->
-            </main>
+    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+            @yield('content')
+        </div>
+    </div>
+</main>
         </div>
     </body>
 </html>
