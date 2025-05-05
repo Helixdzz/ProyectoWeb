@@ -3,20 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    // Display a list of users (admin only)
+    public function __construct()
+{
+    $this->authorizeResource(User::class, 'user');
+}
+
+
     public function index()
     {
-        $this->authorize('viewAny', User::class);
-        
-        $users = User::latest()->paginate(10);
+        $users = User::paginate(10); // Cambia esto para usar paginación
         return view('users.index', compact('users'));
     }
+    
+
+
 
     // Show the form to create a new user (admin only)
     public function create()
@@ -110,20 +115,13 @@ class UserController extends Controller
             ->with('success', 'User deleted successfully!');
     }
 
-    // Toggle admin status (new method)
     public function toggleAdmin(User $user)
-    {
-        $this->authorize('toggleAdmin', $user);
-        
-        // Prevent self-demotion
-        if (auth()->id() === $user->id) {
-            return redirect()->back()
-                ->with('error', 'You cannot change your own admin status!');
-        }
+{
+    $user->is_admin = !$user->is_admin;
+    $user->save(); // <- esto es CRUCIAL
 
-        $user->update(['is_admin' => !$user->is_admin]);
+    return redirect()->back()->with('success', 'User admin status updated.');
+}
 
-        return back()->with('success', 
-            $user->is_admin ? 'Admin privileges granted!' : 'Admin privileges removed!');
-    }
+    
 }

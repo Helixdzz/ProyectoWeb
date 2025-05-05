@@ -32,14 +32,19 @@
                         </span>
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap">
-                        <form action="{{ route('users.toggle-admin', $user->id) }}" method="POST">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit" 
-                                    class="text-{{ $user->is_admin ? 'red' : 'green' }}-600 hover:text-{{ $user->is_admin ? 'red' : 'green' }}-800">
-                                {{ $user->is_admin ? 'Remove Admin' : 'Make Admin' }}
-                            </button>
-                        </form>
+                        @can('update', $user)  <!-- Verifica si el usuario tiene permiso para cambiar el rol -->
+                            <form action="{{ route('users.toggle-admin', $user->id) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" 
+                                        class="text-{{ $user->is_admin ? 'red' : 'green' }}-600 hover:text-{{ $user->is_admin ? 'red' : 'green' }}-800">
+                                    {{ $user->is_admin ? 'Remove Admin' : 'Make Admin' }}
+                                </button>
+                            </form>
+                        @else
+                            <!-- No permitir que los usuarios no administradores vean el botón -->
+                            <span class="text-gray-500">No permission</span>
+                        @endcan
                     </td>
                 </tr>
                 @endforeach

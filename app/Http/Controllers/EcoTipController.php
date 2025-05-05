@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Storage;
 class EcoTipController extends Controller
 {
     /**
+     * Constructor to apply policy checks
+     */
+    public function __construct()
+    {
+        // No middleware, we will use policies directly for authorization
+        $this->authorizeResource(EcoTip::class, 'eco_tip');
+    }
+
+    /**
      * Display all eco tips
      */
     public function index()
@@ -22,6 +31,8 @@ class EcoTipController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', EcoTip::class); // Only admins can create
+
         return view('eco-tips.create');
     }
 
@@ -30,6 +41,8 @@ class EcoTipController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', EcoTip::class); // Only admins can store
+
         $validated = $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
@@ -53,6 +66,8 @@ class EcoTipController extends Controller
      */
     public function show(EcoTip $eco_tip)
     {
+        $this->authorize('view', $eco_tip); // Any user can view eco tips
+
         return view('eco-tips.show', compact('eco_tip'));
     }
 
@@ -61,6 +76,8 @@ class EcoTipController extends Controller
      */
     public function edit(EcoTip $eco_tip)
     {
+        $this->authorize('update', $eco_tip); // Only admins can edit
+
         return view('eco-tips.edit', compact('eco_tip'));
     }
 
@@ -69,6 +86,8 @@ class EcoTipController extends Controller
      */
     public function update(Request $request, EcoTip $eco_tip)
     {
+        $this->authorize('update', $eco_tip); // Only admins can update
+
         $validated = $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
@@ -81,7 +100,7 @@ class EcoTipController extends Controller
             if ($eco_tip->image_path) {
                 Storage::delete('public/' . $eco_tip->image_path);
             }
-            
+
             $path = $request->file('image')->store('public/eco-tips');
             $validated['image_path'] = str_replace('public/', '', $path);
         }
@@ -97,6 +116,8 @@ class EcoTipController extends Controller
      */
     public function destroy(EcoTip $eco_tip)
     {
+        $this->authorize('delete', $eco_tip); // Only admins can delete
+
         if ($eco_tip->image_path) {
             Storage::delete('public/' . $eco_tip->image_path);
         }
