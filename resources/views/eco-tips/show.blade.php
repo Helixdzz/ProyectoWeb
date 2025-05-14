@@ -30,9 +30,10 @@
 
         <div class="bg-white rounded-xl shadow-md overflow-hidden">
             @if($eco_tip->image_path)
-                <img src="{{ asset('storage/' . $eco_tip->image_path) }}" 
-                     alt="{{ $eco_tip->title }}" 
-                     class="w-full h-64 object-cover">
+            <img src="{{ asset('storage/' . $eco_tip->image_path) }}" 
+     alt="{{ $eco_tip->title }}" 
+     class="w-full max-h-[600px] object-contain mx-auto">
+
             @endif
             
             <div class="p-8">

@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\EcoTipController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\WeatherController;
 
 // Landing page (pública)
 Route::get('/', function () {
@@ -30,36 +31,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Productos
     Route::resource('productos', ProductoController::class);
 
-    // EcoTips - Vista pública
-    Route::resource('eco-tips', EcoTipController::class)->only(['index', 'show']);
-
-    // Crear EcoTips (solo admins)
-    Route::middleware('can:create,App\Models\EcoTip')->group(function () {
-        Route::resource('eco-tips', EcoTipController::class)->only(['create', 'store']);
-    });
-
-    // Editar EcoTips (solo admins)
-    Route::middleware('can:update,eco_tip')->group(function () {
-        Route::resource('eco-tips', EcoTipController::class)->only(['edit', 'update']);
-    });
-
-    // Eliminar EcoTips (solo admins)
-    Route::middleware('can:delete,eco_tip')->group(function () {
-        Route::resource('eco-tips', EcoTipController::class)->only(['destroy']);
-    });
+    // EcoTips - TODAS las rutas protegidas por políticas en el controlador
+    Route::resource('eco-tips', EcoTipController::class);
 
     // Gestión de usuarios (solo admins, autorizado vía política)
     Route::resource('users', UserController::class);
-
-    Route::middleware('can:viewAny,App\Models\User')->group(function () {
-        Route::resource('users', UserController::class)->except(['index']);
-    });
-
-    Route::middleware('can:viewAny,App\Models\User')->group(function () {
-        Route::resource('users', UserController::class);
-    });
-    
-    
 
     // Ruta para alternar el rol admin
     Route::patch('/users/{user}/toggle-admin', [UserController::class, 'toggleAdmin'])->name('users.toggle-admin');
@@ -68,4 +44,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+Route::get('/dashboard', [App\Http\Controllers\WeatherController::class, 'show'])
+    ->middleware(['auth'])->name('dashboard');
+
+Route::get('/weather', [WeatherController::class, 'show'])->name('weather');
+
 });

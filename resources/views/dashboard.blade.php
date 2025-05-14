@@ -53,6 +53,9 @@
             </div>
         </div>
 
+        @include('partials.weather-widget')
+
+
         <!-- Logout Button -->
         <form action="{{ route('logout') }}" method="POST" style="margin-top: 2rem;">
             @csrf

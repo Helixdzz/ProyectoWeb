@@ -40,26 +40,27 @@ class EcoTipController extends Controller
      * Store a new eco tip
      */
     public function store(Request $request)
-    {
-        $this->authorize('create', EcoTip::class); // Only admins can store
+{
+    $this->authorize('create', EcoTip::class);
 
-        $validated = $request->validate([
-            'title' => 'required|max:255',
-            'content' => 'required',
-            'category' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
-        ]);
+    $validated = $request->validate([
+        'title' => 'required|max:255',
+        'content' => 'required',
+        'category' => 'required',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+    ]);
 
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('public/eco-tips');
-            $validated['image_path'] = str_replace('public/', '', $path);
-        }
-
-        EcoTip::create($validated);
-
-        return redirect()->route('eco-tips.index')
-            ->with('success', 'Eco tip created successfully!');
+    if ($request->hasFile('image')) {
+        $path = $request->file('image')->store('eco-tips', 'public');
+        $validated['image_path'] = $path;
     }
+
+    EcoTip::create($validated);
+
+    return redirect()->route('eco-tips.index')
+        ->with('success', 'Eco tip created successfully!');
+}
+
 
     /**
      * Display a single eco tip
@@ -96,14 +97,12 @@ class EcoTipController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($eco_tip->image_path) {
-                Storage::delete('public/' . $eco_tip->image_path);
-            }
-
-            $path = $request->file('image')->store('public/eco-tips');
+            dd($request->file('image')); // this will stop execution and show the file info
+            $path = $request->file('image')->store('eco-tips', 'public');
             $validated['image_path'] = str_replace('public/', '', $path);
         }
+        
+        
 
         $eco_tip->update($validated);
 

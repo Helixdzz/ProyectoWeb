@@ -22,7 +22,7 @@
                 @if($tip->image_path)
                     <img src="{{ asset('storage/' . $tip->image_path) }}" 
                          alt="{{ $tip->title }}" 
-                         class="w-full h-48 object-cover">
+                         class="w-full h-48 object-contain bg-white">
                 @endif
                 
                 <div class="p-6">
